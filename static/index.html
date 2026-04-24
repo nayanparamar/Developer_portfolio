@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Studio</title>
+    <meta
+      name="description"
+      content="A premium personal portfolio website with an owner dashboard, authentication, database-backed content, and contact capture."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div class="quick-nav" aria-label="Page shortcuts">
+      <a href="#top">01 Home</a>
+      <a href="#projects">02 Work</a>
+      <a href="#experience">03 Stack</a>
+      <a href="#contact">04 Contact</a>
+    </div>
+    <div class="site-shell">
+      <header class="hero" id="top">
+        <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+        <nav class="nav">
+          <a class="brand" href="#top">
+            <span class="brand-dot"></span>
+            <span id="brandName">Portfolio Studio</span>
+          </a>
+          <div class="nav-links">
+            <a href="#projects">Projects</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
+            <button class="nav-button" id="adminToggleBtn" type="button">Admin</button>
+          </div>
+        </nav>
+
+        <div class="hero-copy">
+          <p class="eyebrow" id="heroIntro"></p>
+          <h1 id="ownerNameHero">Nayan Paramar</h1>
+          <p class="hero-title-line" id="heroTitle"></p>
+          <p class="role-line" id="ownerRole"></p>
+          <p class="hero-blurb" id="heroBlurb"></p>
+          <div class="hero-actions">
+            <a class="primary-link" id="primaryCta" href="#projects">View projects</a>
+            <a class="secondary-link" id="secondaryCta" href="#contact">Contact</a>
+          </div>
+          <div class="social-strip">
+            <a id="githubLink" href="#" target="_blank" rel="noreferrer">GitHub</a>
+            <a id="linkedinLink" href="#" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a id="twitterLink" href="#" target="_blank" rel="noreferrer">X</a>
+            <a id="resumeLink" href="#" target="_blank" rel="noreferrer">Resume</a>
+          </div>
+        </div>
+
+        <div class="hero-intel">
+          <div class="intel-panel">
+            <p class="card-label">Focus</p>
+            <h2>Solidity, EVM security, protocol review.</h2>
+            <p id="ownerLocation" class="muted-text"></p>
+            <p id="availabilityLabel" class="availability-pill"></p>
+          </div>
+
+          <div class="intel-panel stat-panel">
+            <p class="card-label">Profile</p>
+            <div class="stat-grid" id="statGrid"></div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section section-about">
+          <div>
+            <p class="section-kicker">About</p>
+            <h2 id="aboutTitle"></h2>
+          </div>
+          <div class="about-panel">
+            <p class="about-copy" id="aboutBody"></p>
+            <div class="audit-strip">
+              <span>Threat modeling</span>
+              <span>Invariant checks</span>
+              <span>Manual review</span>
+              <span>Exploit thinking</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="projects">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Selected Work</p>
+              <h2>Security work, Solidity builds, and research notes.</h2>
+            </div>
+            <span class="section-note">Add audits, writeups, contracts, and bug bounty work from the dashboard.</span>
+          </div>
+          <div class="project-grid" id="projectGrid"></div>
+        </section>
+
+        <section class="section split-section" id="experience">
+          <div>
+            <p class="section-kicker">Experience</p>
+            <h2>Focused on protocol security and reliable smart contracts.</h2>
+            <div class="timeline" id="experienceList"></div>
+          </div>
+          <div>
+            <p class="section-kicker">Capabilities</p>
+            <h2>Tools and instincts for finding what breaks.</h2>
+            <div class="skills-cloud" id="skillsCloud"></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Testimonials</p>
+              <h2>What collaborators say after the work ships.</h2>
+            </div>
+          </div>
+          <div class="testimonial-grid" id="testimonialGrid"></div>
+        </section>
+
+        <section class="section contact-section" id="contact">
+          <div class="contact-copy">
+            <p class="section-kicker">Contact</p>
+            <h2>Need a smart contract built, reviewed, or hardened?</h2>
+            <p class="muted-text">
+              Send the contract scope, repo, protocol context, or security concern. Every inquiry lands in your private dashboard.
+            </p>
+            <div class="scope-panel">
+              <p class="card-label">Typical requests</p>
+              <button class="scope-chip" data-scope="Smart contract audit request: repo link, contracts in scope, protocol overview, and preferred timeline." type="button">Audit request</button>
+              <button class="scope-chip" data-scope="Solidity development request: feature idea, target chain, expected contract behavior, and integration needs." type="button">Solidity build</button>
+              <button class="scope-chip" data-scope="Security research collaboration: target protocol, research angle, constraints, and expected output." type="button">Research collab</button>
+            </div>
+            <div class="contact-details">
+              <a id="emailLink" href="#"></a>
+              <a id="phoneLink" href="#"></a>
+            </div>
+          </div>
+          <form class="contact-form" id="contactForm">
+            <label>
+              <span>Name</span>
+              <input id="contactName" type="text" placeholder="Your name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input id="contactEmail" type="email" placeholder="you@example.com" required />
+            </label>
+            <label>
+              <span>Company</span>
+              <input id="contactCompany" type="text" placeholder="Company or team" />
+            </label>
+            <label>
+              <span>Budget</span>
+              <input id="contactBudget" type="text" placeholder="$2k-$8k, full-time, contract..." />
+            </label>
+            <label>
+              <span>Message</span>
+              <textarea id="contactMessage" rows="5" placeholder="Tell me what you want to build." required></textarea>
+            </label>
+            <button class="primary-button" type="submit">Send inquiry</button>
+            <p class="form-feedback" id="contactFeedback"></p>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <div class="drawer-backdrop hidden" id="drawerBackdrop"></div>
+    <aside class="admin-drawer hidden" id="adminDrawer">
+      <div class="drawer-header">
+        <div>
+          <p class="section-kicker">Owner Area</p>
+          <h2 id="authHeading">Sign in</h2>
+        </div>
+        <button class="icon-button" id="closeDrawerBtn" type="button">Close</button>
+      </div>
+
+      <section class="panel auth-panel" id="authPanel">
+        <form class="stack-form" id="authForm">
+          <label>
+            <span>Name</span>
+            <input id="authName" type="text" placeholder="Your name" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input id="authEmail" type="email" placeholder="owner@example.com" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="authPassword" type="password" placeholder="Minimum 8 characters" required />
+          </label>
+          <button class="primary-button" id="authSubmitBtn" type="submit">Sign in</button>
+          <button class="ghost-button" id="authSwitchBtn" type="button">Need the first admin account? Register</button>
+          <p class="form-feedback" id="authFeedback"></p>
+        </form>
+      </section>
+
+      <section class="panel hidden" id="adminPanel">
+        <div class="admin-toolbar">
+          <div>
+            <p class="section-kicker">Dashboard</p>
+            <h2 id="adminGreeting"></h2>
+          </div>
+          <button class="ghost-button" id="logoutBtn" type="button">Log out</button>
+        </div>
+
+        <div class="dashboard-metrics" id="dashboardMetrics"></div>
+
+        <form class="stack-form" id="siteSettingsForm">
+          <h3>Site Settings</h3>
+          <label><span>Owner name</span><input id="ownerNameInput" type="text" /></label>
+          <label><span>Owner role</span><input id="ownerRoleInput" type="text" /></label>
+          <label><span>Owner location</span><input id="ownerLocationInput" type="text" /></label>
+          <label><span>Hero intro</span><input id="heroIntroInput" type="text" /></label>
+          <label><span>Hero title</span><textarea id="heroTitleInput" rows="3"></textarea></label>
+          <label><span>Hero blurb</span><textarea id="heroBlurbInput" rows="4"></textarea></label>
+          <label><span>About title</span><input id="aboutTitleInput" type="text" /></label>
+          <label><span>About body</span><textarea id="aboutBodyInput" rows="5"></textarea></label>
+          <label><span>Primary CTA label</span><input id="primaryCtaLabelInput" type="text" /></label>
+          <label><span>Primary CTA URL</span><input id="primaryCtaUrlInput" type="text" /></label>
+          <label><span>Secondary CTA label</span><input id="secondaryCtaLabelInput" type="text" /></label>
+          <label><span>Secondary CTA URL</span><input id="secondaryCtaUrlInput" type="text" /></label>
+          <label><span>Email</span><input id="emailInput" type="email" /></label>
+          <label><span>Phone</span><input id="phoneInput" type="text" /></label>
+          <label><span>GitHub URL</span><input id="githubUrlInput" type="url" /></label>
+          <label><span>LinkedIn URL</span><input id="linkedinUrlInput" type="url" /></label>
+          <label><span>X URL</span><input id="twitterUrlInput" type="url" /></label>
+          <label><span>Resume URL</span><input id="resumeUrlInput" type="text" /></label>
+          <label><span>Availability label</span><input id="availabilityLabelInput" type="text" /></label>
+          <label><span>Years experience</span><input id="yearsExperienceInput" type="number" min="0" /></label>
+          <label><span>Projects completed</span><input id="projectsCompletedInput" type="number" min="0" /></label>
+          <label><span>Happy clients</span><input id="happyClientsInput" type="number" min="0" /></label>
+        </form>
+
+        <div class="editor-group">
+          <div class="editor-head">
+            <h3>Projects</h3>
+            <button class="ghost-button" id="addProjectBtn" type="button">Add project</button>
+          </div>
+          <div class="item-list" id="projectEditorList"></div>
+        </div>
+
+        <div class="editor-group">
+          <div class="editor-head">
+            <h3>Experience</h3>
+            <button class="ghost-button" id="addExperienceBtn" type="button">Add experience</button>
+          </div>
+          <div class="item-list" id="experienceEditorList"></div>
+        </div>
+
+        <div class="editor-group">
+          <div class="editor-head">
+            <h3>Skills</h3>
+            <button class="ghost-button" id="addSkillBtn" type="button">Add skill</button>
+          </div>
+          <div class="item-list" id="skillEditorList"></div>
+        </div>
+
+        <div class="editor-group">
+          <div class="editor-head">
+            <h3>Testimonials</h3>
+            <button class="ghost-button" id="addTestimonialBtn" type="button">Add testimonial</button>
+          </div>
+          <div class="item-list" id="testimonialEditorList"></div>
+        </div>
+
+        <div class="editor-group">
+          <div class="editor-head">
+            <h3>Messages</h3>
+          </div>
+          <div class="message-list" id="messageList"></div>
+        </div>
+
+        <button class="primary-button full-width" id="saveAllBtn" type="button">Save all changes</button>
+        <p class="form-feedback" id="adminFeedback"></p>
+      </section>
+    </aside>
+
+    <template id="projectCardTemplate">
+      <article class="project-card reveal-card">
+        <div class="project-top">
+          <p class="project-category"></p>
+          <span class="feature-pill"></span>
+        </div>
+        <h3 class="project-title"></h3>
+        <p class="project-summary"></p>
+        <div class="stack-list"></div>
+        <div class="project-links">
+          <a class="project-live" target="_blank" rel="noreferrer">Live</a>
+          <a class="project-github" target="_blank" rel="noreferrer">Code</a>
+        </div>
+      </article>
+    </template>
+
+    <template id="timelineItemTemplate">
+      <article class="timeline-item">
+        <div class="timeline-meta"></div>
+        <h3 class="timeline-role"></h3>
+        <p class="timeline-summary"></p>
+      </article>
+    </template>
+
+    <template id="skillChipTemplate">
+      <article class="skill-chip">
+        <span class="skill-category"></span>
+        <strong class="skill-label"></strong>
+      </article>
+    </template>
+
+    <template id="testimonialTemplate">
+      <article class="testimonial-card">
+        <p class="testimonial-quote"></p>
+        <div class="testimonial-author"></div>
+      </article>
+    </template>
+
+    <template id="dashboardMetricTemplate">
+      <article class="metric-card">
+        <span class="metric-label"></span>
+        <strong class="metric-value"></strong>
+      </article>
+    </template>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
