@@ -1,85 +1,65 @@
-# Firebase Deployment
+# Firebase Static Hosting
 
-Firebase Hosting alone is not enough for this app because the portfolio has a Python backend, admin auth, SQLite storage, and contact-message APIs.
+This repository is now ready for the no-payment Firebase Hosting path.
 
-Use this Firebase architecture:
+Firebase will publish only the `static/` folder. The portfolio works as a polished public website, and the contact form opens an email draft to `nayanparamar7@gmail.com`.
 
-- Firebase Hosting for the public `web.app` / custom-domain URL
-- Cloud Run for the Python app container
-- Firestore or Cloud SQL for long-term production data
+## What Works On Free Static Hosting
 
-## Important Database Note
+- public portfolio website
+- responsive UI and animations
+- project, experience, skill, and testimonial sections
+- contact form via email draft
+- GitHub Pages-like Firebase Hosting deployment
 
-The current app uses SQLite. That is fine locally and works well on hosts with persistent disks, such as Render.
+## What Is Disabled On Static Hosting
 
-Cloud Run containers have an ephemeral filesystem. If you deploy the current SQLite version to Cloud Run as-is, admin edits and contact messages can be lost when the container restarts.
+- admin login
+- database-backed CMS edits
+- saved contact messages
+- Python API routes
 
-For a proper Firebase-native production setup, migrate the database layer to Firestore.
+Those backend features are still kept in the repo for later. To use them in production, deploy the Python server to a backend host and use persistent storage.
 
-## Quick Cloud Run + Firebase Hosting Path
+## Deploy Steps
 
-Install tools:
+Install Firebase CLI:
 
 ```bash
 npm install -g firebase-tools
-```
-
-Install Google Cloud CLI:
-
-```text
-https://cloud.google.com/sdk/docs/install
 ```
 
 Login:
 
 ```bash
 firebase login
-gcloud auth login
 ```
 
-Set your project:
+Initialize or select your Firebase project:
 
 ```bash
-gcloud config set project YOUR_PROJECT_ID
-firebase use YOUR_PROJECT_ID
+firebase use --add
 ```
 
-Enable Cloud Run and Artifact Registry:
-
-```bash
-gcloud services enable run.googleapis.com artifactregistry.googleapis.com cloudbuild.googleapis.com
-```
-
-Build and deploy the container:
-
-```bash
-gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/portfolio-studio
-gcloud run deploy portfolio-studio --image gcr.io/YOUR_PROJECT_ID/portfolio-studio --region asia-south1 --allow-unauthenticated
-```
-
-Set production environment variables on Cloud Run:
-
-```bash
-gcloud run services update portfolio-studio --region asia-south1 --set-env-vars HOST=0.0.0.0,SESSION_COOKIE_SECURE=true
-```
-
-Deploy Firebase Hosting rewrite:
+Deploy hosting:
 
 ```bash
 firebase deploy --only hosting
 ```
 
-Your app will be available at:
+Your site will be available at:
 
 ```text
 https://YOUR_PROJECT_ID.web.app
 https://YOUR_PROJECT_ID.firebaseapp.com
 ```
 
-## Recommended Next Upgrade
+## Later Backend Upgrade
 
-Before using Firebase as the final production host, replace SQLite with Firestore so:
+If you later want database, auth, CMS, and stored messages online, use one of these:
 
-- admin edits persist across deploys and restarts
-- contact messages are stored reliably
-- the app becomes Firebase-native
+- Render or Railway with persistent storage
+- Firebase Hosting plus Cloud Run plus Firestore
+- VPS with the Python app and persistent disk
+
+For a proper Firebase-native backend, migrate SQLite to Firestore before using Cloud Run.

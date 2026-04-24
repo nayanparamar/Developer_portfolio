@@ -40,11 +40,12 @@ This app is hosting-friendly because it uses only Python standard library module
 
 Good options:
 
+- Firebase Hosting for the free static public portfolio
 - Render web service
 - Railway service
 - a VPS running `python server.py`
 - Docker
-- Firebase Hosting + Cloud Run
+- Firebase Hosting + Cloud Run for a future backend version
 
 Set these environment variables in production:
 
@@ -62,7 +63,7 @@ Health check endpoint:
 - `Procfile` is included for simple process-based hosts
 - `railway.json` is included for Railway
 - `Dockerfile` is included for container hosting
-- `firebase.json` is included for Firebase Hosting rewrites to Cloud Run
+- `firebase.json` is included for static Firebase Hosting
 
 See `DEPLOYMENT.md` for full deployment steps and SQLite persistence notes.
-See `FIREBASE_DEPLOYMENT.md` before choosing Firebase, because SQLite needs Firestore or Cloud SQL for reliable production persistence on Cloud Run.
+See `FIREBASE_DEPLOYMENT.md` for the no-payment Firebase static hosting path. The static Firebase version disables backend CMS/auth/database features and uses email for contact.

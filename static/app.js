@@ -99,6 +99,115 @@ const state = {
   session: null,
   publicData: null,
   adminData: null,
+  isStaticMode: false,
+};
+
+const STATIC_SITE_DATA = {
+  site: {
+    ownerName: "Nayan Paramar",
+    ownerRole: "Smart contract developer and security researcher",
+    ownerLocation: "India",
+    heroIntro: "Smart contract developer and security researcher.",
+    heroTitle: "I secure smart contracts and build reliable on-chain systems.",
+    heroBlurb:
+      "I work across Solidity development, protocol review, security research, and production-grade Web3 systems. This portfolio is ready for my projects, audits, writeups, and research notes as they are added.",
+    aboutTitle: "About me",
+    aboutBody:
+      "I am Nayan Paramar, a smart contract developer and security researcher focused on secure blockchain applications, Solidity engineering, and practical vulnerability research.",
+    primaryCtaLabel: "View projects",
+    primaryCtaUrl: "#projects",
+    secondaryCtaLabel: "Contact me",
+    secondaryCtaUrl: "#contact",
+    email: "nayanparamar7@gmail.com",
+    phone: "+91 9601407983",
+    githubUrl: "https://github.com/nayanparamar",
+    linkedinUrl: "#",
+    twitterUrl: "#",
+    resumeUrl: "#",
+    availabilityLabel: "Available for smart contract development, audits, and security research work",
+    yearsExperience: 1,
+    projectsCompleted: 0,
+    happyClients: 0,
+  },
+  projects: [
+    {
+      id: "static-project-1",
+      title: "Smart Contract Portfolio",
+      category: "Web3 security profile",
+      summary: "A portfolio space for Solidity projects, audit notes, vulnerability research, and blockchain security work.",
+      stack: "Solidity, Security Research, Python, SQLite",
+      githubUrl: "https://github.com/nayanparamar",
+      liveUrl: "#",
+      featured: true,
+      sortOrder: 1,
+    },
+    {
+      id: "static-project-2",
+      title: "Audit Notes",
+      category: "Security research",
+      summary: "A placeholder for future smart contract audit reports, vulnerability breakdowns, and protocol review notes.",
+      stack: "Solidity, Foundry, Slither, Manual Review",
+      githubUrl: "#",
+      liveUrl: "#",
+      featured: true,
+      sortOrder: 2,
+    },
+    {
+      id: "static-project-3",
+      title: "Solidity Experiments",
+      category: "Smart contract development",
+      summary: "A placeholder collection for contracts, proof-of-concepts, and on-chain application experiments.",
+      stack: "Solidity, Foundry, Hardhat, EVM",
+      githubUrl: "#",
+      liveUrl: "#",
+      featured: false,
+      sortOrder: 3,
+    },
+  ],
+  experiences: [
+    {
+      id: "static-experience-1",
+      role: "Smart Contract Developer",
+      company: "Independent",
+      startLabel: "2025",
+      endLabel: "Present",
+      summary: "Building Solidity projects, studying protocol design, and improving security review skills through practical research.",
+      sortOrder: 1,
+    },
+    {
+      id: "static-experience-2",
+      role: "Security Researcher",
+      company: "Independent",
+      startLabel: "2025",
+      endLabel: "Present",
+      summary: "Researching smart contract vulnerabilities, audit methodology, and secure development practices across EVM systems.",
+      sortOrder: 2,
+    },
+  ],
+  skills: [
+    { id: "static-skill-1", label: "Solidity", category: "Smart Contracts", sortOrder: 1 },
+    { id: "static-skill-2", label: "EVM Security", category: "Security", sortOrder: 2 },
+    { id: "static-skill-3", label: "Manual Code Review", category: "Security", sortOrder: 3 },
+    { id: "static-skill-4", label: "Foundry", category: "Tooling", sortOrder: 4 },
+    { id: "static-skill-5", label: "Hardhat", category: "Tooling", sortOrder: 5 },
+    { id: "static-skill-6", label: "Protocol Research", category: "Research", sortOrder: 6 },
+  ],
+  testimonials: [
+    {
+      id: "static-testimonial-1",
+      authorName: "Future Collaborator",
+      authorRole: "Project Owner",
+      quote: "Add a client or collaborator testimonial here once your first public feedback is ready.",
+      sortOrder: 1,
+    },
+    {
+      id: "static-testimonial-2",
+      authorName: "Future Audit Client",
+      authorRole: "Protocol Team",
+      quote: "Use this space for audit feedback, bug bounty recognition, or security research acknowledgements.",
+      sortOrder: 2,
+    },
+  ],
 };
 
 function uid() {
@@ -126,10 +235,18 @@ async function apiFetch(path, options = {}) {
 
 async function bootstrap() {
   bindEvents();
-  const [publicData, sessionData] = await Promise.all([apiFetch("/api/public-site"), apiFetch("/api/session")]);
-  state.publicData = publicData;
-  state.session = sessionData.user;
-  state.adminData = sessionData.admin || null;
+  try {
+    const [publicData, sessionData] = await Promise.all([apiFetch("/api/public-site"), apiFetch("/api/session")]);
+    state.publicData = publicData;
+    state.session = sessionData.user;
+    state.adminData = sessionData.admin || null;
+  } catch (error) {
+    state.isStaticMode = true;
+    state.publicData = STATIC_SITE_DATA;
+    state.session = null;
+    state.adminData = null;
+    console.info("Static Firebase mode active. Backend-only CMS features are disabled.", error);
+  }
   renderPublic();
   renderAdminState();
   startHeroCanvas();
@@ -387,6 +504,20 @@ function renderTestimonials(testimonials) {
 
 async function handleContactSubmit(event) {
   event.preventDefault();
+  if (state.isStaticMode) {
+    const subject = `Portfolio inquiry from ${elements.contactName.value || "a visitor"}`;
+    const body = [
+      `Name: ${elements.contactName.value}`,
+      `Email: ${elements.contactEmail.value}`,
+      `Company: ${elements.contactCompany.value || "Not provided"}`,
+      `Budget: ${elements.contactBudget.value || "Not provided"}`,
+      "",
+      elements.contactMessage.value,
+    ].join("\n");
+    window.location.href = `mailto:${STATIC_SITE_DATA.site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    elements.contactFeedback.textContent = "Your email app is opening with the inquiry ready to send.";
+    return;
+  }
   elements.contactFeedback.textContent = "Sending...";
   try {
     await apiFetch("/api/contact", {
@@ -440,6 +571,11 @@ async function handleLogout() {
 }
 
 function renderAdminState() {
+  elements.adminToggleBtn.classList.toggle("hidden", state.isStaticMode);
+  if (state.isStaticMode) {
+    closeDrawer();
+    return;
+  }
   const isAdmin = Boolean(state.session?.isAdmin && state.adminData);
   elements.authPanel.classList.toggle("hidden", isAdmin);
   elements.adminPanel.classList.toggle("hidden", !isAdmin);
