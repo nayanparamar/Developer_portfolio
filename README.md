@@ -44,6 +44,7 @@ Good options:
 - Railway service
 - a VPS running `python server.py`
 - Docker
+- Firebase Hosting + Cloud Run
 
 Set these environment variables in production:
 
@@ -61,5 +62,7 @@ Health check endpoint:
 - `Procfile` is included for simple process-based hosts
 - `railway.json` is included for Railway
 - `Dockerfile` is included for container hosting
+- `firebase.json` is included for Firebase Hosting rewrites to Cloud Run
 
 See `DEPLOYMENT.md` for full deployment steps and SQLite persistence notes.
+See `FIREBASE_DEPLOYMENT.md` before choosing Firebase, because SQLite needs Firestore or Cloud SQL for reliable production persistence on Cloud Run.
